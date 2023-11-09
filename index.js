@@ -1,10 +1,28 @@
-const requestUrl = "https://cloudflareinterntest.pages.dev/";
-fetch(requestUrl)
-.then(response => response.json())
-.then(data => { 
-   const { parse } = require("csv-parse");
-   const fs = require("fs");
-   fs.createReadStream("general_data.csv")
+const csv = require('csv-parser')
+const fs = require('fs')
+const results = [];
+
+fs.createReadStream('general_data.csv')
+  .pipe(csv())
+  .on('data', (data) => results.push(data))
+  .on('end', () => {
+    console.log(results);
+    for(let i = 0; i < results.length; i++){
+
+    }
+   
+  });
+
+
+
+
+
+
+/*
+const { parse } = require("csv-parse");
+const fs = require("fs");
+
+fs.createReadStream("general_data.csv")
   .pipe(
     parse({
       comment: "#",
@@ -20,4 +38,4 @@ fetch(requestUrl)
   .on("end", () => {
     console.log("Done");
   });
-})
+  */
