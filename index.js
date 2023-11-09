@@ -1,10 +1,6 @@
-export default {
-  async fetch(request, env, ctx) {
-    return new Response('Hello World!');
-  },
-};
+
 import { Readable } from "stream";
-const readableStream = await fetch(
+const Response = await fetch(
   'https://652c15ec.cloudflareinterntest.pages.dev/'
   ).then((r) => Readable.fromWeb(r.body));
 readableStream
@@ -24,6 +20,12 @@ readableStream
     console.log("Done");
   });
 
+
+export default {
+  async fetch(request, env, ctx) {
+    return Response;
+  },
+};
 /*
 fs.createReadStream("general_data.csv")
   .pipe(
