@@ -1,4 +1,8 @@
-
+export default {
+  async fetch(request, env, ctx) {
+    return new Response('Hello World!');
+  },
+};
 import { Readable } from "stream";
 const readableStream = await fetch(
   'https://652c15ec.cloudflareinterntest.pages.dev/'
