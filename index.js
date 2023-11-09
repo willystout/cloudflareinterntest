@@ -1,7 +1,7 @@
 // 1) Fetch data from remote API
 async function getUsers() {
   try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/users", {
+    const response = await fetch(event.request, {
       method: "GET",
     });
 
@@ -18,7 +18,6 @@ async function getUsers() {
 }
 const { parse } = require("csv-parse");
 const fs = require("fs");
-const result = [];
 
 fs.createReadStream("general_data.csv")
   .pipe(
