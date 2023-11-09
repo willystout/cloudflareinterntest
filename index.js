@@ -3,7 +3,7 @@ import { Readable } from "stream";
 const Response = await fetch(
   'https://652c15ec.cloudflareinterntest.pages.dev/'
   ).then((r) => Readable.fromWeb(r.body));
-readableStream
+Response
   .pipe(
     parse({
       comment: "#",
