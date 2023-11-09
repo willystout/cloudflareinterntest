@@ -1,7 +1,7 @@
 const { parse } = require("csv-parse");
 const fs = require("fs");
 const result = [];
-fetch("./tortoise.png")
+fetch("./data")
   // Retrieve its body as ReadableStream
   .then((response) => response.body)
   .then((body) => {
@@ -21,5 +21,4 @@ fetch("./tortoise.png")
       .on("end", () => {
         console.log("Done");
       });
-    // …
   });
