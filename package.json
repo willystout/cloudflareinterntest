@@ -9,8 +9,14 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "core-js": "^3.26.1",
         "csv-parse": "^5.5.2",
         "csv-parser": "^3.0.0",
-        "jquery": "^3.7.1"
+        "FileReader": "^0.10.2",
+        "groupby": "^0.1.1",
+        "jquery": "^3.7.1",
+        "jQuery": "^1.7.4",
+        "lodash": "^4.17.21",
+        "reduce": "^1.0.2"
     }
 }

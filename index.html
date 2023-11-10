@@ -3,14 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organization Data</title>
-  <link rel="stylesheet" href="index.css">
-  <script defer src="index.js"></script>
+  <title>Display JSON Data</title>
 </head>
 <body>
-  <!-- My header here is just for presentation-->
-   <header>
-     <h1> Organization </h1>
-   </header>
+
+  <h1>Organization Information</h1>
+
+  <div id="organization-info"></div>
+
+  <script>
+    // Fetch the JSON data (replace 'output.json' with your actual JSON file path)
+    fetch('output.json')
+      .then(response => response.json())
+      .then(data => {
+        // Display the organization information
+        displayOrganizationInfo(data['YourOrganization']);
+      })
+      .catch(error => console.error('Error fetching JSON data:', error));
+
+    function displayOrganizationInfo(organization) {
+      const organizationInfoDiv = document.getElementById('organization-info');
+
+      organizationInfoDiv.innerHTML = `<h2>Organization: ${organization.name}</h2>`;
+
+      organization.departments.forEach(department => {
+        const departmentDiv = document.createElement('div');
+        departmentDiv.innerHTML = `
+          <h3>Department: ${department.DeptName}</h3>
+          <p>Manager: ${department.managerName}</p>
+          <ul>${displayEmployees(department.employees)}</ul>
+        `;
+
+        organizationInfoDiv.appendChild(departmentDiv);
+      });
+    }
+
+    function displayEmployees(employees) {
+      return employees.map(employee => `
+        <li>
+          <strong>${employee.name}</strong>
+          <ul>
+            <li>Department: ${employee.department}</li>
+            <li>Salary: ${employee.salary}</li>
+            <li>Office: ${employee.office}</li>
+            <li>Is Manager: ${employee.isManager ? 'Yes' : 'No'}</li>
+            <li>Skills: ${employee.skills.join(', ')}</li>
+          </ul>
+        </li>
+      `).join('');
+    }
+  </script>
+
 </body>
 </html>
