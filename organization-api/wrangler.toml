@@ -1,0 +1,8 @@
+name = "organization-api"
+compatibility_date = "2023-11-11"
+account_id = "willystout5@gmail.com"
+workers_dev = true
+
+kv_namespaces = [
+  { binding = "markdowntest", id = "4ab33d072270496fb34c720a57716e02" }
+]
