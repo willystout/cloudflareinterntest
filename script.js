@@ -13,7 +13,7 @@ function fetchOrganizationData() {
 
 
 function displayOrganizationData(organization) {
-    const organizationDiv = document.getElementById('organization');
+    const organizationDiv = document.getElementById('organizationData');
     organization.departments.forEach(department => {
         const departmentDiv = document.createElement('div');
         departmentDiv.className = 'department';

@@ -15,6 +15,7 @@ async function handleRequest(request) {
   }
 }
 
+import organizationData from './output.json';
 
 // the get-organization endpoint
 async function getOrganizationData() {
