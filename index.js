@@ -7,9 +7,7 @@ async function handleRequest(request) {
 
   switch (url.pathname) {
     case "/get-organization":
-      return new Response(JSON.stringify("output.json"), {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return getOrganizationData();
     case "/me":
       return getMe();
     default:
