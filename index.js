@@ -47,6 +47,18 @@ async function getMe() {
   });
 }
 
+// the default response
+function defaultResponse(request) {
+  return new Response(
+    "Welcome to my Cloudflare Worker! Use the /get-organization or /me endpoints!",
+    {
+      status: 200,
+      headers: { "Content-Type": "text/plain" },
+    }
+  );
+}
+
+
 // Function to transform organization data to graph representation
 function transformToGraph(orgData) {
   const csvtojson = require("csvtojson");
