@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchOrganizationData() {
-    fetch('https://my-worker.willystout5.workers.dev/get-organization')
+    fetch('https://cloudflareinterntest.pages.dev/get-organization')
     .then(response => response.json())
     .then(data => {
         displayOrganizationData(data.organization);
