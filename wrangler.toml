@@ -1,0 +1,9 @@
+name = "your-worker-name"
+type = javascript
+account_id = "willystout5@gmail.com"
+workers_dev = true
+
+# KV Namespace bindings
+[[kv_namespaces]]
+binding = "MY_KV_NAMESPACE"
+id = "your_namespace_id"

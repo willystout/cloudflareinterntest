@@ -1,3 +1,5 @@
+
+
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
@@ -10,6 +12,7 @@ async function handleRequest(request) {
     new URL(request.url).pathname === "/organization-chart"
   ) {
     try {
+      // Fetch organization data from KV
       const orgData = await ORG_NAMESPACE.get("data", "json");
 
       if (!orgData) {
@@ -18,6 +21,8 @@ async function handleRequest(request) {
           { status: 404 }
         );
       }
+
+      // Transform organization data as needed for the graph representation
       const graphData = transformToGraph(orgData);
 
       return new Response(JSON.stringify(graphData), {
@@ -30,15 +35,19 @@ async function handleRequest(request) {
       });
     }
   }
+
   return new Response(JSON.stringify({ error: "Not Found" }), { status: 404 });
 }
+transformToGraph();
 
+// Function to transform organization data to graph representation
 function transformToGraph(orgData) {
   const csvtojson = require("csvtojson");
   const fs = require("fs");
   const csvFilePath = "general_data.csv";
   const jsonFilePath = "output.json";
 
+  // Reads the CSV file and converts it to JSON
   csvtojson()
     .fromFile(csvFilePath)
     .then((jsonArray) => {
@@ -46,8 +55,11 @@ function transformToGraph(orgData) {
         console.error("Error: CSV data is not an array.");
         return;
       }
+
+      // Organize data into a hierarchical structure
       const organizedData = organizeData(jsonArray);
 
+      // Write the organized data to a JSON file
       fs.writeFile(
         jsonFilePath,
         JSON.stringify(organizedData, null, 2),
@@ -67,11 +79,12 @@ function transformToGraph(orgData) {
       console.error("Error converting CSV to JSON:", error);
     });
 
+  // Function to organize data into a hierarchical structure
   function organizeData(csvData) {
     const organizedData = {};
 
     csvData.forEach((entry) => {
-      const organization = "YourOrganization";
+      const organization = "YourOrganization"; 
       const departmentName = entry.department;
       const employee = {
         name: entry.name,
@@ -82,10 +95,12 @@ function transformToGraph(orgData) {
         skills: [entry.skill1.trim(), entry.skill2.trim(), entry.skill3.trim()],
       };
 
+      // Initialize organization if not exists
       if (!organizedData[organization]) {
         organizedData[organization] = { departments: [] };
       }
 
+      // Find or create department
       let department = organizedData[organization].departments.find(
         (dep) => dep.DeptName === departmentName
       );
@@ -93,16 +108,18 @@ function transformToGraph(orgData) {
       if (!department) {
         department = {
           DeptName: departmentName,
-          managerName: "",
+          managerName: "", // Default manager name
           employees: [],
         };
         organizedData[organization].departments.push(department);
       }
 
+      // Checks if the employee is a manager
       if (employee.isManager) {
         department.managerName = employee.name;
       }
 
+      // Adds an employee to the department
       department.employees.push(employee);
     });
 
