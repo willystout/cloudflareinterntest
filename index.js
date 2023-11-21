@@ -1,44 +1,51 @@
-
-
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
-const ORG_NAMESPACE = new WorkersKV("d3cf2557154b4d8587724bfb800c5a23");
-
 async function handleRequest(request) {
-  if (
-    request.method === "GET" &&
-    new URL(request.url).pathname === "/organization-chart"
-  ) {
-    try {
-      // Fetch organization data from KV
-      const orgData = await ORG_NAMESPACE.get("data", "json");
+  const url = new URL(request.url);
 
-      if (!orgData) {
-        return new Response(
-          JSON.stringify({ error: "Organization data not found" }),
-          { status: 404 }
-        );
-      }
-
-      // Transform organization data as needed for the graph representation
-      const graphData = transformToGraph(orgData);
-
-      return new Response(JSON.stringify(graphData), {
-        headers: { "Content-Type": "application/json" },
-        status: 200,
-      });
-    } catch (error) {
-      return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-        status: 500,
-      });
-    }
+  switch (url.pathname) {
+    case "/get-organization":
+      return getOrganizationData();
+    case "/me":
+      return getMe();
+    default:
+      return defaultResponse(request);
   }
-
-  return new Response(JSON.stringify({ error: "Not Found" }), { status: 404 });
 }
-transformToGraph();
+
+
+// the get-organization endpoint
+async function getOrganizationData() {
+  try {
+    const storedData = fetch("output.json");
+    transformToGraph();
+    return new Response(storedData, {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response("Error fetching organization data", { status: 500 });
+  }
+}
+
+
+// the me endpoint
+async function getMe() {
+  const myself = {
+    name: "William C. Stout",
+    homepage: "https://www.linkedin.com/in/williamcstout/",
+    gitHubURL: "https://www.github.com/willystout/",
+    interestingFact:
+      "I was born on the same day as my sister and we are 5 years apart",
+    mySkills: ["Conscientious", "Python, Java & C", "Receptive"],
+  };
+  return new Response(JSON.stringify(myself), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
 
 // Function to transform organization data to graph representation
 function transformToGraph(orgData) {
